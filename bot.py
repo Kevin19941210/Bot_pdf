@@ -1,18 +1,21 @@
 import os
 import re
-import pdfplumber
+# Importamos la nueva librería que sí funciona
+import fitz
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
 # ▼▼▼ ¡OJO! ¡RECUERDA CAMBIAR ESTO POR TU TOKEN REAL! ▼▼▼
-TOKEN = "8235897302:AAHWEYr70BmpW1g6EF5hAluHZxfkL-rUMNQ"
+TOKEN = "8235897302:AAHWEYr70BmpW1g6EF5hAlvHZxfkL-rUMNQ"
 
 def procesar_pdf(ruta_pdf):
     try:
-        with pdfplumber.open(ruta_pdf) as pdf:
-            texto_completo = ""
-            for pagina in pdf.pages:
-                texto_completo += pagina.extract_text() + "\n"
+        # Usamos PyMuPDF (fitz) en lugar de pdfplumber
+        doc = fitz.open(ruta_pdf)
+        texto_completo = ""
+        for pagina in doc:
+            texto_completo += pagina.get_text() + "\n"
+        doc.close()
         
         # Buscamos datos simples como ejemplo
         nit_match = re.search(r"NIT\s*(\d+)", texto_completo, re.IGNORECASE)
