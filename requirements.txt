@@ -1,3 +1,2 @@
-# bot de Python para Telegram
 python-telegram-bot
-PyMuPDF
+PyPDF2
